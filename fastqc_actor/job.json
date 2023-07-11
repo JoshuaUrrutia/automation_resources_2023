@@ -1,0 +1,25 @@
+{
+    "name": "fastqc",
+    "appId": "urrutia-fastqc",
+    "appVersion": "3.0.0",
+    "archiveSystemDir": "${JobWorkingDir}",
+    "parameterSet": {
+        "appArgs": [
+            {"name": "inputFastq", "arg": "/work2/05369/urrutia/frontera/inputs/input.fastq"}
+        ],
+        "schedulerOptions": [
+            {
+                "name": "TACC Allocation",
+                "arg": "-A Frontera-Training"
+            }
+        ]
+    },
+    "moduleLoads": [
+        {
+            "moduleLoadCommand": "module load",
+            "modulesToLoad": [
+                "tacc-apptainer"
+            ]
+        }
+    ]
+}

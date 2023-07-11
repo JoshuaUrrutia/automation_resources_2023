@@ -1,0 +1,37 @@
+{
+  "id": "urrutia-fastqc",
+  "version": "3.0.0",
+  "jobType": "BATCH",
+  "runtime": "SINGULARITY",
+  "runtimeOptions": [
+    "SINGULARITY_RUN"
+    ],
+  "description": "A quality control tool for high throughput sequence data.",
+  "containerImage": "docker://jurrutia/fastqc_app:3.0.0",
+  "jobAttributes": {
+      "isMpi": false,
+      "archiveOnAppError": false,
+      "execSystemId": "frontera",
+      "execSystemLogicalQueue": "small",
+      "execSystemOutputDir": "${JobWorkingDir}",
+      "archiveSystemId": "frontera",
+      "archiveSystemDir": "HOST_EVAL($WORK)/jobs/",
+      "parameterSet": {
+          "appArgs": [
+              {"name": "extractFlag", "arg": "--extract ", "inputMode": "FIXED"},
+              {"name": "threads", "arg": "--threads 80", "inputMode": "FIXED"},
+              {"name": "outdir", "arg": "--outdir .", "inputMode": "FIXED"},
+              {"name": "inputFastq", "arg": "path/to/fastq", "inputMode": "INCLUDE_ON_DEMAND"}
+          ] 
+      },
+      "fileInputs": [
+          {
+              "name": "inputFastq",
+              "inputMode": "REQUIRED",
+              "targetPath": "*",
+              "description": "Input fastq for analysis"
+          }
+      ]
+  }
+
+}
