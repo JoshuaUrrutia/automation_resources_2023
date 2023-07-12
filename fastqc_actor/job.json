@@ -3,6 +3,7 @@
     "appId": "urrutia-fastqc",
     "appVersion": "3.0.0",
     "archiveSystemDir": "${JobWorkingDir}",
+    "archiveOnAppError": false,
     "parameterSet": {
         "appArgs": [
             {"name": "inputFastq", "arg": "/work2/05369/urrutia/frontera/inputs/input.fastq"}

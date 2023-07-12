@@ -7,18 +7,32 @@ import dataclasses
 from typing import Any
 
 JOB = Path("/opt/job.json")
-UPLOAD_DIR = '/work2/05369/urrutia/frontera/inputs/'
+UPLOAD_DIR = '/work2/05369/urrutia/frontera/uploads'
 
 def main() -> None:
     context = actors.get_context()  # type: ignore
     #print(json.dumps(context, indent=4))
+
+    # And we'll read in our job definition json to use for submitting a job
+    with open(JOB, "r") as f:
+        job = json.load(f)
+
+    # For people who don't have docker, you can optionally define path/appid in a message to the actor
+    upload_dir = context.message_dict.get('upload_dir')
+    if upload_dir is None:
+        upload_dir=os.path.normpath(UPLOAD_DIR)
+    else:
+        upload_dir = os.path.normpath(upload_dir)
+    appid = context.message_dict.get('appId')
+    if appid is not None:
+        job['appId'] = appid
 
     # First we need to get our tapis client so we can interact with systems and submit jobs
     t = actors.get_client()
     # there is a bug in the base url, this is a simple patch to remove the trailing slash
     t.base_url = t.base_url.strip('/')
     # Lets check our upload directory to see all the files that have been uploaded
-    files = t.files.listFiles(systemId='frontera', path=UPLOAD_DIR)
+    files = t.files.listFiles(systemId='frontera', path=upload_dir)
     # files.listFiles returns tapipy files objects, we just need a list of paths
     # so we can use list comprehension to create a list of file paths
     input_files = [file.path for file in files]
@@ -28,17 +42,13 @@ def main() -> None:
     # so we can create that submitted list the first time the actor runs
     try:
         # Try reading in the contents of submitted.txt
-        submitted_file = t.files.getContents(systemId='frontera',path=UPLOAD_DIR+'submitted.txt')
+        submitted_file = t.files.getContents(systemId='frontera',path=upload_dir+'/submitted.txt')
         # files.getContents returns a bytes object of the file contents, 
         # so we decode it and turn it into a list
         submitted = [sub.decode() for sub in submitted_file.splitlines()]
     except errors.NotFoundError as e:
         # for our first run, we'll add "submitted.txt", so that new file doesn't trigger another job submission
-        submitted = [UPLOAD_DIR.strip('/')+'/submitted.txt']
-
-    # And we'll read in our job definition json to use for submitting a job
-    with open(JOB, "r") as f:
-        job = json.load(f)
+        submitted = [upload_dir.strip('/')+'/submitted.txt']
 
     # Another example of list comprehension to create a list of files that are 
     # in the upload directory, but not in the "submitted.txt" file
@@ -47,7 +57,9 @@ def main() -> None:
     for path in unsubmitted:
         print(path)
         # sets the input for the job
-        job['parameterSet']['appArgs'][0]['arg'] = path
+        job['parameterSet']['appArgs'][0]['arg'] = '/'+path
+        # set the archive location for the job
+        job['archiveSystemDir'] = upload_dir.replace('uploads','products')
         # submits the job
         resp = t.jobs.submitJob(**job)
         # print the job uuid so we'll have it in the logs
@@ -57,7 +69,7 @@ def main() -> None:
 
     # If this actor doesn't submit any jobs, we don't need to update "submitted.txt"
     # and we can just close out
-    if unsubmitted == []:
+    if unsubmitted == [] and len(submitted) > 1:
         print("No new uploads detected")
         exit()
     # Save a local version of submitted.txt
@@ -66,7 +78,8 @@ def main() -> None:
             # write each item on a new line
             fp.write("%s\n" % item)
     # Upload our local, updated version of submitted.txt to the upload dir so we don't resubmit the same job
-    t.upload(source_file_path="submitted.local", system_id="frontera", dest_file_path=UPLOAD_DIR+"submitted.txt")
+    t.upload(source_file_path="submitted.local", system_id="frontera", dest_file_path=upload_dir+"/submitted.txt")
+    print("updated submitted.txt")
 
 
 

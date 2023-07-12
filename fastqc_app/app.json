@@ -21,17 +21,10 @@
               {"name": "extractFlag", "arg": "--extract ", "inputMode": "FIXED"},
               {"name": "threads", "arg": "--threads 80", "inputMode": "FIXED"},
               {"name": "outdir", "arg": "--outdir .", "inputMode": "FIXED"},
-              {"name": "inputFastq", "arg": "path/to/fastq", "inputMode": "INCLUDE_ON_DEMAND"}
+              {"name": "inputFastq", "arg": "path/to/fastq", "inputMode": "REQUIRED"}
           ] 
       },
       "fileInputs": [
-          {
-              "name": "inputFastq",
-              "inputMode": "REQUIRED",
-              "targetPath": "*",
-              "description": "Input fastq for analysis"
-          }
       ]
   }
-
 }
