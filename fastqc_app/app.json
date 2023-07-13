@@ -13,6 +13,8 @@
       "archiveOnAppError": false,
       "execSystemId": "frontera",
       "execSystemLogicalQueue": "small",
+      "execSystemExecDir": "${JobWorkingDir}",
+      "execSystemInputDir": "${JobWorkingDir}",
       "execSystemOutputDir": "${JobWorkingDir}",
       "archiveSystemId": "frontera",
       "archiveSystemDir": "HOST_EVAL($WORK)/jobs/",
