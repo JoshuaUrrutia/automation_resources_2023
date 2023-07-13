@@ -1,0 +1,55 @@
+{
+    "name": "mriqc-anat",
+    "appId": "mriqc",
+    "appVersion": "3.0.0",
+    "archiveOnAppError": false,
+    "archiveSystemDir": "",
+    "moduleLoads": [
+      {
+          "moduleLoadCommand": "module load",
+          "modulesToLoad": [
+              "tacc-apptainer"
+          ]
+      }
+    ],
+    "parameterSet": {
+       "envVariables": [
+       {
+       "key": "BIDS_DIRECTORY",
+       "value": "/corral-secure/projects/A2CPS/products/mris/UI_uic/bids/UI10704V1"
+       },
+       {
+        "key": "PARTICIPANT_LABEL",
+        "value": "10704"
+        },
+        {
+        "key": "START_IDX",
+        "value": "--start-idx 0"
+        },
+        {
+          "key": "STOP_IDX",
+          "value": "--stop-idx 0"
+        },
+        {
+          "key": "FD_THRESHOLD",
+          "value": "--fd_thres 0.9"
+        },
+        {
+          "key": "MODALITIES",
+          "value": "--modalities T1w"
+        },
+        {
+          "key": "TASK_ID",
+          "value": " "
+        },
+        {
+          "key": "WORK_DIR",
+          "value": "-w work"
+        },
+        {
+          "key": "OUTPUT_DIR",
+          "value": "."
+       }
+       ]
+     }
+   }

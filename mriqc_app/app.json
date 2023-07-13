@@ -1,0 +1,124 @@
+{
+    "id": "mriqc",
+    "version": "3.0.0",
+    "description": "Run QC metrics on MRI images",
+    "owner": "urrutia",
+    "enabled": true,
+    "runtime": "SINGULARITY",
+    "runtimeVersion": null,
+    "runtimeOptions": [
+        "SINGULARITY_RUN"
+    ],
+    "containerImage": "docker://jurrutia/demo_mriqc_app:3.0.0",
+    "jobType": "BATCH",
+    "maxJobs": -1,
+    "maxJobsPerUser": -1,
+    "strictFileInputs": true,
+    "jobAttributes": {
+        "description": null,
+        "dynamicExecSystem": false,
+        "execSystemConstraints": null,
+        "execSystemId": "frontera",
+        "execSystemExecDir": "${JobWorkingDir}",
+        "execSystemInputDir": "${JobWorkingDir}",
+        "execSystemOutputDir": "${JobWorkingDir}",
+        "execSystemLogicalQueue": "small",
+        "archiveSystemId": "frontera",
+        "archiveSystemDir": "/work2/05369/urrutia/frontera/mriqc/",
+        "archiveOnAppError": false,
+        "isMpi": false,
+        "mpiCmd": null,
+        "cmdPrefix": null,
+        "parameterSet": {
+            "appArgs": [],
+            "containerArgs": [
+            ],
+            "schedulerOptions": [
+                {
+                    "name": "TACC Allocation",
+                    "description": "The TACC allocation associated with this job execution",
+                    "inputMode": "FIXED",
+                    "arg": "-A Frontera-Training"
+                }
+            ],
+            "envVariables": [
+                {
+                    "key": "BIDS_DIRECTORY",
+                    "value": "test_data"
+                },
+                {
+                    "key": "BIND_DIR",
+                    "value": "/work2"
+                },
+                {
+                    "key": "PARTICIPANT_LABEL",
+                    "value": "participant --participant_label "
+                },
+                {
+                    "key": "START_IDX",
+                    "value": "--start-idx "
+                },
+                {
+                    "key": "STOP_IDX",
+                    "value": "--stop-idx "
+                },
+                {
+                    "key": "WRITE_GRAPH",
+                    "value": "--write-graph "
+                },
+                {
+                    "key": "ICA",
+                    "value": "--ica "
+                },
+                {
+                    "key": "FD_THRESHOLD",
+                    "value": "--fd_thres "
+                },
+                {
+                    "key": "FFT_SPIKES",
+                    "value": "--fft-spikes-detector "
+                },
+                {
+                    "key": "CORRECT_SLICE_TIMING",
+                    "value": "--correct-slice-timing "
+                },
+                {
+                    "key": "MODALITIES",
+                    "value": "--modalities "
+                },
+                {
+                    "key": "TASK_ID",
+                    "value": "--task-id "
+                },
+                {
+                    "key": "WORK_DIR",
+                    "value": "-w "
+                },
+                {
+                    "key": "OUTPUT_DIR",
+                    "value": "outputs"
+                }
+            ],
+            "archiveFilter": {
+                "includes": [],
+                "excludes": [],
+                "includeLaunchFiles": true
+            }
+        },
+        "fileInputs": [],
+        "fileInputArrays": [],
+        "nodeCount": 1,
+        "maxMinutes": 2880,
+        "subscriptions": [],
+        "tags": []
+    },
+    "tags": [],
+    "notes": {
+        "label": "MRIQC is a functional magnetic resonance imaging (fMRI) quality control pipeline",
+        "helpUrl": "",
+        "hideNodeCountAndCoresPerNode": false,
+        "isInteractive": false,
+        "icon": "",
+        "category": "Data Processing"
+    }
+}
