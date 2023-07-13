@@ -69,7 +69,6 @@ def main() -> None:
         print("Submitted Job: {}".format(resp.uuid))
         # add the input to our "submitted" list
         submitted.append(path)
-        submitted.append(path.split('.zip')[0])
 
     # If this actor doesn't submit any jobs, we don't need to update "submitted.txt"
     # and we can just close out
